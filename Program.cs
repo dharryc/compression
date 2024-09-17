@@ -125,6 +125,30 @@ public class BrockCompression : IBitStringCompressor
         return (input, chunkSize); // Does not work for now
     }
 
+    // Return string and chunk size
+    (string, int) QuickConvertToSymbols(string input)
+    {
+        const int chunkSize = 4;
+
+        // Create a list of chunks to interpret
+        List<string> listOfChunks = new();
+
+        // Create the list of chunks
+        for (int i = 0; i < input.Length - 1; i = i + chunkSize)
+        {
+            string chunk = input.Substring(i, chunkSize);
+            listOfChunks.Add(chunk);
+        }
+
+        foreach (var chunk in listOfChunks)
+        {
+            util.DebugMessage(chunk);
+        }
+        // Convert the list of chunks
+
+        return (input, chunkSize);
+    }
+
     string ConvertFromSymbols(string input)
     {
         return input;
