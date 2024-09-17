@@ -1,6 +1,14 @@
 ﻿//Group Project 1 - Compression
+
 //Brock, Sergio, and Harry
+
 //Starting 9/15
+
+//Our idea for compression is to break the string into chunks of 4 bits, convert those into ACII characters,
+//then turn them back into binary with one extra bit at the end signifying if the chunk repeated or not
+
+//For decompression, run through chunks of size 5, if the ending number is 1, repeat the first four, if it's
+//0, only write the first four
 using System;
 using System.Security.Cryptography;
 
@@ -52,7 +60,7 @@ public class Compression
     }
 }
 
-public class BrockCompression: IBitStringCompressor
+public class BrockCompression : IBitStringCompressor
 {
     Utility util = new Utility(true);
 
@@ -77,7 +85,7 @@ public class BrockCompression: IBitStringCompressor
         // If number mod i is 0, return the factor
         // Stolen from Stack Overflow
 
-        List<int> output = new() {1};
+        List<int> output = new() { 1 };
         int max = (int)Math.Sqrt(number);
 
         // Start at 2 because 1 is automatically there
@@ -107,7 +115,7 @@ public class BrockCompression: IBitStringCompressor
         // Iterates through the whole input until the size is equivalent
         for (int i = 0; i < input.Length - 1; i = i + chunkSize)
         {
-            string chunk = input.Substring(i, i+chunkSize);
+            string chunk = input.Substring(i, i + chunkSize);
             listOfChunks.Add(chunk);
         }
 
@@ -119,7 +127,7 @@ public class BrockCompression: IBitStringCompressor
 
     string ConvertFromSymbols(string input)
     {
-        return input;  
+        return input;
     }
 }
 
