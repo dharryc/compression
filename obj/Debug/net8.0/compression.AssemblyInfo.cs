@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("compression")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+cc7bd6161ccc5ef6d9bff4da7505e722c2873ff8")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+c2d1e8970c888715a64e2a46fcc710fc44219abe")]
 [assembly: System.Reflection.AssemblyProductAttribute("compression")]
 [assembly: System.Reflection.AssemblyTitleAttribute("compression")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

@@ -8,19 +8,19 @@
     "net8.0": []
   },
   "packageFolders": {
-    "C:\\Users\\dharr\\.nuget\\packages\\": {}
+    "/Users/toastielad/.nuget/packages/": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\dharr\\HOMEWORK\\algorithms\\compression\\compression.csproj",
+      "projectUniqueName": "/Users/toastielad/files/coding/basic-compression-project-1/compression.csproj",
       "projectName": "compression",
-      "projectPath": "C:\\Users\\dharr\\HOMEWORK\\algorithms\\compression\\compression.csproj",
-      "packagesPath": "C:\\Users\\dharr\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\dharr\\HOMEWORK\\algorithms\\compression\\obj\\",
+      "projectPath": "/Users/toastielad/files/coding/basic-compression-project-1/compression.csproj",
+      "packagesPath": "/Users/toastielad/.nuget/packages/",
+      "outputPath": "/Users/toastielad/files/coding/basic-compression-project-1/obj/",
       "projectStyle": "PackageReference",
       "configFilePaths": [
-        "C:\\Users\\dharr\\AppData\\Roaming\\NuGet\\NuGet.Config"
+        "/Users/toastielad/.nuget/NuGet/NuGet.Config"
       ],
       "originalTargetFrameworks": [
         "net8.0"
@@ -64,7 +64,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.203/PortableRuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "/usr/local/share/dotnet/sdk/8.0.401/PortableRuntimeIdentifierGraph.json"
       }
     }
   }
