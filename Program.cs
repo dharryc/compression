@@ -8,13 +8,6 @@ public class Compression
 {
     public static void Main()
     {
-        Console.WriteLine("hello guys, time to write some compression!!!");
-        int[] j = MakeBinaryArray(50);
-        Console.WriteLine();
-        for (int a = 0; a < j.Length; a++)
-        {
-            Console.Write(j[a]);
-        }
     }
 
     public static int[] MakeBinaryArray(int size)
