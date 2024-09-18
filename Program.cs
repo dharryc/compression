@@ -180,3 +180,34 @@ public interface IBitStringCompressor
     string Compress(string original);
     string Decompress(string compressed);
 }
+
+
+public class HarrysCompression
+{
+    public static void Compression(string binary)
+    {
+        MakeItInts(binary);
+
+    }
+    public static int[] MakeItInts(string binary)
+    {
+        List<int> num = new();
+        foreach (char b in binary)
+        {
+            int a = Convert.ToInt32(b);
+            num.Add(a);
+        }
+        int lengthCount = 0;
+        foreach (int a in num)
+        {
+            lengthCount++;
+        }
+        int[] c = new int[lengthCount];
+        foreach (int a in num)
+        {
+            c[a] = num[a];
+        }
+        return c;
+    }
+    
+}
