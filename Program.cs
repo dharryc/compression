@@ -105,7 +105,7 @@ public class BrockCompression : IBitStringCompressor
     // Returns the symbolic string and the size of the chunk used
     (string, int) ConvertToSymbols(string input)
     {
-        string output;
+        //string output;
         var factorList = LargestFactor(input.Length);
         // Chooses a length that is in the middle to create a chunk to work with
         int chunkSize = factorList[factorList.Count / 2];
@@ -184,11 +184,19 @@ public interface IBitStringCompressor
 
 public class HarrysCompression
 {
-    public static void Compression(string binary)
+    public static string Compression(string binary)
     {
-        MakeItInts(binary);
+        int[] intlist = MakeItInts(binary);
+        List<int[]> chunks = Chunkmaker(intlist);
+        int[] compressedString = [];
+        foreach(int[] a in chunks)
+        {
 
+        }
     }
+
+
+    //this is horrible, and I know it is. I'm sorry.
     public static int[] MakeItInts(string binary)
     {
         List<int> num = new();
@@ -209,5 +217,37 @@ public class HarrysCompression
         }
         return c;
     }
-    
+
+    //I'm beginning to think this might be totally unneccesary, which would suck, but we will see
+    public static List<int[]> Chunkmaker(int[] binary)
+    {
+        int overflow = binary.Length % 4;
+        List<int[]> b = [];
+        if (overflow == 0)
+        {
+            int chunkNum = binary.Length / 4;
+            for (int a = 0; a < chunkNum; a += 4)
+            {
+                int[] intermediate = { binary[a], binary[a + 1], binary[a + 2], binary[a + 3] };
+                b.Add(intermediate);
+            }
+            return b;
+        }
+        else
+        {
+            int chunkNum = (binary.Length - overflow) / 4;
+            for (int a = 0; a < chunkNum; a += 4)
+            {
+                int[] intermediate = { binary[a], binary[a + 1], binary[a + 2], binary[a + 3] };
+                b.Add(intermediate);
+            }
+            int[] extra = new int[binary.Length - overflow];
+            for (int a = 0; a < overflow; a++)
+            {
+                extra[a] = binary[(a + binary.Length) - overflow];
+            }
+            b.Add(extra);
+            return b;
+        }
+    }
 }
