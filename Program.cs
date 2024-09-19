@@ -10,7 +10,9 @@
 //For decompression, run through chunks of size 5, if the ending number is 1, repeat the first four, if it's
 //0, only write the first four
 using System;
+using System.Diagnostics;
 using System.Security.Cryptography;
+using System.Security.Cryptography.X509Certificates;
 
 public class Compression
 {
@@ -186,36 +188,29 @@ public class HarrysCompression
 {
     public static string Compression(string binary)
     {
-        int[] intlist = MakeItInts(binary);
-        List<int[]> chunks = Chunkmaker(intlist);
-        int[] compressedString = [];
-        foreach(int[] a in chunks)
+        //the first thing I do is convert the input string into an array as integers, I find integers easier to work with
+        char[] charList = binary.ToCharArray();
+        int[] intList = Array.ConvertAll(charList, c => (int)Char.GetNumericValue(c));
+        //then break that string into smaller "chunks" of 4 bits at a time
+        List<int[]> chunks = Chunkmaker(intList);
+        //now "compress" those chunks into letters, and store them in a list
+        List<string> translatedInts = [];
+        foreach (int[] a in chunks)
         {
-
-        }
-    }
-
-
-    //this is horrible, and I know it is. I'm sorry.
-    public static int[] MakeItInts(string binary)
-    {
-        List<int> num = new();
-        foreach (char b in binary)
-        {
-            int a = Convert.ToInt32(b);
-            num.Add(a);
+            translatedInts.Add(Translation(a));
         }
         int lengthCount = 0;
-        foreach (int a in num)
+        foreach (string a in translatedInts)
         {
             lengthCount++;
         }
-        int[] c = new int[lengthCount];
-        foreach (int a in num)
+        string[] checkTime = new string[lengthCount];
+        for (int a = 0; a < checkTime.Length; a++)
         {
-            c[a] = num[a];
+            checkTime[a] = translatedInts[a];
         }
-        return c;
+        string compressedString = string.Join("", ActuallyCompressPlease(translatedInts));
+        return compressedString;
     }
 
     //I'm beginning to think this might be totally unneccesary, which would suck, but we will see
@@ -223,31 +218,241 @@ public class HarrysCompression
     {
         int overflow = binary.Length % 4;
         List<int[]> b = [];
-        if (overflow == 0)
+        return b;
+    }
+    public static string Translation(int[] fourBits)
+    {
+        if (fourBits[0] == 0 || fourBits[1] == 0 || fourBits[2] == 0 || fourBits[3] == 0)
         {
-            int chunkNum = binary.Length / 4;
-            for (int a = 0; a < chunkNum; a += 4)
-            {
-                int[] intermediate = { binary[a], binary[a + 1], binary[a + 2], binary[a + 3] };
-                b.Add(intermediate);
-            }
-            return b;
+            return "a";
+        }
+        if (fourBits[0] == 0 || fourBits[1] == 0 || fourBits[2] == 0 || fourBits[3] == 1)
+        {
+            return "b";
+        }
+        if (fourBits[0] == 0 || fourBits[1] == 0 || fourBits[2] == 1 || fourBits[3] == 0)
+        {
+            return "c";
+        }
+        if (fourBits[0] == 0 || fourBits[1] == 0 || fourBits[2] == 1 || fourBits[3] == 1)
+        {
+            return "d";
+        }
+        if (fourBits[0] == 0 || fourBits[1] == 1 || fourBits[2] == 0 || fourBits[3] == 0)
+        {
+            return "e";
+        }
+        if (fourBits[0] == 0 || fourBits[1] == 1 || fourBits[2] == 0 || fourBits[3] == 1)
+        {
+            return "f";
+        }
+        if (fourBits[0] == 0 || fourBits[1] == 1 || fourBits[2] == 1 || fourBits[3] == 0)
+        {
+            return "g";
+        }
+        if (fourBits[0] == 0 || fourBits[1] == 1 || fourBits[2] == 1 || fourBits[3] == 1)
+        {
+            return "h";
+        }
+        if (fourBits[0] == 1 || fourBits[1] == 0 || fourBits[2] == 0 || fourBits[3] == 0)
+        {
+            return "i";
+        }
+        if (fourBits[0] == 1 || fourBits[1] == 0 || fourBits[2] == 0 || fourBits[3] == 1)
+        {
+            return "j";
+        }
+        if (fourBits[0] == 1 || fourBits[1] == 0 || fourBits[2] == 1 || fourBits[3] == 0)
+        {
+            return "k";
+        }
+        if (fourBits[0] == 1 || fourBits[1] == 0 || fourBits[2] == 1 || fourBits[3] == 1)
+        {
+            return "l";
+        }
+        if (fourBits[0] == 1 || fourBits[1] == 1 || fourBits[2] == 0 || fourBits[3] == 0)
+        {
+            return "m";
+        }
+        if (fourBits[0] == 1 || fourBits[1] == 1 || fourBits[2] == 0 || fourBits[3] == 1)
+        {
+            return "n";
+        }
+        if (fourBits[0] == 1 || fourBits[1] == 1 || fourBits[2] == 1 || fourBits[3] == 0)
+        {
+            return "o";
+        }
+        if (fourBits[0] == 1 || fourBits[1] == 1 || fourBits[2] == 1 || fourBits[3] == 1)
+        {
+            return "p";
         }
         else
         {
-            int chunkNum = (binary.Length - overflow) / 4;
-            for (int a = 0; a < chunkNum; a += 4)
+            return "x";
+        }
+    }
+    public static List<string> ActuallyCompressPlease(List<string> binaryAsLetters)
+    {
+        List<string> shouldBeCompressed = [];
+        int lengthCount = 0;
+        foreach (string a in binaryAsLetters)
+        {
+            lengthCount++;
+        }
+        for (int a = 0; a < lengthCount; a++)
+        {
+            if (binaryAsLetters[a] == binaryAsLetters[a + 1])
             {
-                int[] intermediate = { binary[a], binary[a + 1], binary[a + 2], binary[a + 3] };
-                b.Add(intermediate);
+                shouldBeCompressed.Add(DidRepeat(binaryAsLetters[a]));
+                a++;
             }
-            int[] extra = new int[binary.Length - overflow];
-            for (int a = 0; a < overflow; a++)
+            else
             {
-                extra[a] = binary[(a + binary.Length) - overflow];
+                shouldBeCompressed.Add(DidNotRepeat(binaryAsLetters[a]));
             }
-            b.Add(extra);
-            return b;
+        }
+        return shouldBeCompressed;
+    }
+    public static string DidRepeat(string a)
+    {
+        if (a == "a")
+        {
+            return "00001";
+        }
+        if (a == "b")
+        {
+            return "00011";
+        }
+        if (a == "c")
+        {
+            return "00101";
+        }
+        if (a == "d")
+        {
+            return "00111";
+        }
+        if (a == "e")
+        {
+            return "01001";
+        }
+        if (a == "f")
+        {
+            return "01011";
+        }
+        if (a == "g")
+        {
+            return "01101";
+        }
+        if (a == "h")
+        {
+            return "01111";
+        }
+        if (a == "i")
+        {
+            return "10001";
+        }
+        if (a == "j")
+        {
+            return "10011";
+        }
+        if (a == "k")
+        {
+            return "10101";
+        }
+        if (a == "l")
+        {
+            return "10111";
+        }
+        if (a == "m")
+        {
+            return "11001";
+        }
+        if (a == "n")
+        {
+            return "11011";
+        }
+        if (a == "o")
+        {
+            return "11101";
+        }
+        if (a == "p")
+        {
+            return "11111";
+        }
+        else
+        {
+            return null;
+        }
+    }
+    public static string DidNotRepeat(string a)
+    {
+        if (a == "a")
+        {
+            return "00000";
+        }
+        if (a == "b")
+        {
+            return "00010";
+        }
+        if (a == "c")
+        {
+            return "00100";
+        }
+        if (a == "d")
+        {
+            return "00110";
+        }
+        if (a == "e")
+        {
+            return "01000";
+        }
+        if (a == "f")
+        {
+            return "01010";
+        }
+        if (a == "g")
+        {
+            return "01100";
+        }
+        if (a == "h")
+        {
+            return "01110";
+        }
+        if (a == "i")
+        {
+            return "10000";
+        }
+        if (a == "j")
+        {
+            return "10010";
+        }
+        if (a == "k")
+        {
+            return "10100";
+        }
+        if (a == "l")
+        {
+            return "10110";
+        }
+        if (a == "m")
+        {
+            return "11000";
+        }
+        if (a == "n")
+        {
+            return "11010";
+        }
+        if (a == "o")
+        {
+            return "11100";
+        }
+        if (a == "p")
+        {
+            return "11110";
+        }
+        else
+        {
+            return null;
         }
     }
 }
